@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - ReactJsMVC</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/site.css"/>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
+    </environment>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top"></nav>
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; 2018 - ReactJsMVC</p>
+    </footer>
+</div>
+<environment include="Development">
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+<script src="@Url.Content("~/js/Row.jsx")"></script>
+<script src="@Url.Content("~/js/Coordinate.jsx")"></script>
+<script src="@Url.Content("~/js/Board.jsx")"></script>
+@RenderSection("Scripts", required: false)
+</body>
+</html>

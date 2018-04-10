@@ -1,0 +1,35 @@
+﻿body{
+    padding: 20px;
+}
+.board {
+    display: flex;
+    background-color: #afafaf;
+    flex-direction: column;
+    text-align: center  ;
+}
+
+.row {
+    flex: 5;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+}
+
+.coordinate {
+    background-color: #e5e5e5;
+    width: 20vw;
+    height: 20vh;
+    flex: 4;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-flow: column wrap;
+    border: firebrick dashed 1px;
+}
+
+.clicked {
+    background-color: aqua;
+}
