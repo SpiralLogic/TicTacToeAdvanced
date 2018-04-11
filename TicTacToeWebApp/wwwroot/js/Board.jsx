@@ -10,7 +10,7 @@ class Board extends React.Component {
     }
 }
 
-const size = 5;
+const size = 3;
 ReactDOM.render(
     <Board size={size}/>,
     document.getElementById('content')

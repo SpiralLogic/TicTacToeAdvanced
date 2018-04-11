@@ -6,7 +6,7 @@ namespace TicTacToeWebApp.Controllers
     {
         [Route("")]
         public IActionResult Index()
-        {
+        { 
             return
                 View();
         }

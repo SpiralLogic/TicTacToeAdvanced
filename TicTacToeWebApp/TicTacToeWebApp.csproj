@@ -14,7 +14,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.2" />
     <PackageReference Include="React.AspNet" Version="3.3.0" />
-    <PackageReference Include="TicTacToe" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\images\banner1.svg" />
@@ -29,5 +28,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TicTacToe, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\TicTacToeBasic\TicTacToe\bin\Release\netcoreapp2.0\TicTacToe.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

@@ -32,7 +32,7 @@ namespace TicTacToeWebApp
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".TicTacToe.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromSeconds(1000);
             });
             return services.BuildServiceProvider();
         }
@@ -49,8 +49,7 @@ namespace TicTacToeWebApp
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            var engineSwitcher = JsEngineSwitcher.Instance;
-            engineSwitcher.EngineFactories
+            JsEngineSwitcher.Instance.EngineFactories
                 .AddChakraCore()
                 .AddJint();
 
@@ -64,7 +63,6 @@ namespace TicTacToeWebApp
                 //     .AddScript("~/js/Coordinate.jsx")
                 //     .AddScript("~/js/Row.jsx")
                 //     .AddScript("~/js/Board.jsx");
-
                 // If you use an external build too (for example, Babel, Webpack,
                 // Browserify or Gulp), you can improve performance by disabling
                 // ReactJS.NET's version of Babel and loading the pre-transpiled
