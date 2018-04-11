@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ReactJsMVC.Controllers
+namespace TicTacToeWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        // GET
+        [Route("")]
         public IActionResult Index()
         {
             return

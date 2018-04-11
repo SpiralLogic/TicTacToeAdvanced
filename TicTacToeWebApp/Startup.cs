@@ -17,6 +17,7 @@ namespace TicTacToeWebApp
     public class Startup
     {
         public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,7 +28,12 @@ namespace TicTacToeWebApp
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
-            services.AddMvc();
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".TicTacToe.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+            });
             return services.BuildServiceProvider();
         }
 
@@ -47,32 +53,36 @@ namespace TicTacToeWebApp
             engineSwitcher.EngineFactories
                 .AddChakraCore()
                 .AddJint();
-            
+
             app.UseReact(config =>
             {
                 // If you want to use server-side rendering of React components,
                 // add all the necessary JavaScript files here. This includes
                 // your components as well as all of their dependencies.
                 // See http://reactjs.net/ for more information. Example:
-                //config
-                //  .AddScript("~/Scripts/First.jsx")
-                //  .AddScript("~/Scripts/Second.jsx");
+                // config
+                //     .AddScript("~/js/Coordinate.jsx")
+                //     .AddScript("~/js/Row.jsx")
+                //     .AddScript("~/js/Board.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,
                 // Browserify or Gulp), you can improve performance by disabling
                 // ReactJS.NET's version of Babel and loading the pre-transpiled
                 // scripts. Example:
-                //config
-                //  .SetLoadBabel(false)
-                //  .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
+                // config
+                //    .SetLoadBabel(false)
+                //    .AddScriptWithoutTransform("~/wwwroot/js/Board.jsx");
             });
             app.UseStaticFiles();
+            app.UseSession();
+            app.UseMvc();
 
-            app.UseMvc(routes =>
+            app.UseStatusCodePages(async context =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                context.HttpContext.Response.ContentType = "text/plain";
+                await context.HttpContext.Response.WriteAsync(
+                    "Status code page, status code: " +
+                    context.HttpContext.Response.StatusCode);
             });
         }
     }
