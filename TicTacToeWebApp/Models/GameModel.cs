@@ -8,15 +8,15 @@ namespace TicTacToeWebApp.Models
     {
         public char[][] Board;
         public string GameState;
-        public char Player1;
-        public char Player2;
+        public string Player1;
+        public string Player2;
 
         public GameModel(TicTacToeGame game)
         {
             GameState = game.GameState.Describe;
             Board = CreateBoardCharArray(game.DescribeBoard());
-            Player1 = game.Player1.Symbol;
-            Player2 = game.Player2.Symbol;
+            Player1 = game.Player1.Symbol.ToString();
+            Player2 = game.Player2.Symbol.ToString();
             
         }
         

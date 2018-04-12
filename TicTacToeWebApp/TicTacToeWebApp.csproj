@@ -28,11 +28,6 @@
     <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TicTacToe, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\TicTacToeBasic\TicTacToe\bin\Release\netcoreapp2.0\TicTacToe.dll</HintPath>
-    </Reference>
-    <Reference Include="TicTacToe, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\TicTacToe\TicTacToe\bin\Debug\netcoreapp2.0\TicTacToe.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\TicTacToe\TicTacToe.csproj" />
   </ItemGroup>
 </Project>
