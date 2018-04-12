@@ -25,10 +25,5 @@ namespace TicTacToeWebApp.Models
             return board.Split('\n').Select(row => row.Trim().Split(' ').Select(coord => coord.Trim().First()).ToArray()).ToArray();
         }
 
-        class PlayerModel
-        {
-            private string Name;
-            private string Symbol;
-        }
     }
 }

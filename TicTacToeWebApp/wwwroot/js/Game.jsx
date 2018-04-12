@@ -5,7 +5,7 @@ class Game extends React.Component {
         this.forfeit = this.forfeit.bind(this);
         this.takeTurn = this.takeTurn.bind(this);
         this.makeRequest = this.makeRequest.bind(this);
-        this.state = {board: [], gameState: '', player1: '', player2: ''};
+        this.state = {board: [], gameState: '', player1: '', player2: '', turnStatus: "Go!"};
     }
 
     componentDidMount() {
@@ -13,7 +13,7 @@ class Game extends React.Component {
     }
 
     start() {
-        this.makeRequest('/api/game', 'post');
+        this.makeRequest('/api/game/3', 'post');
     }
 
     forfeit() {

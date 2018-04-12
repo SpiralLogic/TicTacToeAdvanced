@@ -1,5 +1,20 @@
 ﻿body {
-    padding: 20px;
+    padding: 0;
+}
+
+div#content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:  center;
+    height: 99vmin;
+    width: 99vmin;
 }
 
 .board {
@@ -7,25 +22,27 @@
     background-color: #afafaf;
     flex-direction: column;
     text-align: center;
+    justify-content: center;
+    height: 80vmin;
+    width: 80vmin;
 }
 
 .row {
-    flex: 5;
     display: flex;
     flex-direction: row;
-    font-size: 20vw;   
+    justify-content: space-between;
+    flex-grow: 1;
 }
 
 .coordinate {
     background-color: #e5e5e5;
-    width: 20vw;
-    height: 20vh;
-    flex: 4;
     display: flex;
-    text-align: center;
     justify-content: center;
-    flex-flow: column wrap;
     border: firebrick dashed 1px;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 0;
+    font-size: 2em;
 }
 
 .clicked {
@@ -33,14 +50,19 @@
 }
 
 .game p {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: #34282C;
     color: orangered;
     border: black solid 1px;
     margin: 0;
     padding: 0;
-    font-size: 2vh;
+    font-size: 3vh;
     font-weight: bold;
     text-align: center;
+    height: 10vmin;
+    width: 100%;
 }
 
 .board .p1 {

@@ -11,7 +11,7 @@ namespace TicTacToeWebApp.Controllers
     {
         private const string SessionKeyGame = "_Game";
 
-        [HttpPost("")]    
+        [HttpPost("{boardLength}")]    
         public IActionResult New(int boardLength=3)
         {
             var game = CreateNewGame(boardLength);

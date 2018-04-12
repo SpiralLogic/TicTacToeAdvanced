@@ -7,6 +7,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.osx-x64" Version="2.4.14" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.win-x64" Version="2.4.15" />
     <PackageReference Include="JavaScriptEngineSwitcher.Jint" Version="2.4.13" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.2" />
@@ -27,11 +28,11 @@
     <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\lib" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="TicTacToe, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\TicTacToeBasic\TicTacToe\bin\Release\netcoreapp2.0\TicTacToe.dll</HintPath>
+    </Reference>
+    <Reference Include="TicTacToe, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\TicTacToe\TicTacToe\bin\Debug\netcoreapp2.0\TicTacToe.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
