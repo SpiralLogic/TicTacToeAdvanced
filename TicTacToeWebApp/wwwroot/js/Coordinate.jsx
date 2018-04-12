@@ -3,20 +3,20 @@ class Coordinate extends React.Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.updateFunction = this.props.updateFunction;
-        this.state = {className: 'coordinate'}
     }
 
     render() {
+        const game = this.props.game;
         const entity = this.props.entity;
         const x = this.props.x;
         const y = this.props.y;
+        const playerClass = entity === game.player1 ? ' p1' : entity === game.player2 ? ' p2' : '';
         return (
-            <div onClick={this.handleClick} className={this.state.className} x={x} y={y}>{entity}</div>
+            <div onClick={this.handleClick} className={"coordinate" + playerClass} x={x} y={y}>{entity}</div>
         )
     }
 
     handleClick() {
-        this.setState({className: 'coordinate clicked'});
         this.updateFunction(this.props.x, this.props.y)
     }
 }

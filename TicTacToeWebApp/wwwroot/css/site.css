@@ -1,21 +1,19 @@
-﻿body{
+﻿body {
     padding: 20px;
 }
+
 .board {
     display: flex;
     background-color: #afafaf;
     flex-direction: column;
-    text-align: center  ;
+    text-align: center;
 }
 
 .row {
     flex: 5;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
     flex-direction: row;
+    font-size: 20vw;   
 }
 
 .coordinate {
@@ -32,4 +30,23 @@
 
 .clicked {
     background-color: aqua;
+}
+
+.game p {
+    background-color: #34282C;
+    color: orangered;
+    border: black solid 1px;
+    margin: 0;
+    padding: 0;
+    font-size: 2vh;
+    font-weight: bold;
+    text-align: center;
+}
+
+.board .p1 {
+    background-color: cornflowerblue;
+}
+
+.board .p2 {
+    background-color: yellow;
 }

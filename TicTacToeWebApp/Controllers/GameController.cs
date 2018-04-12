@@ -10,27 +10,28 @@ namespace TicTacToeWebApp.Controllers
     public class GameController : Controller
     {
         private const string SessionKeyGame = "_Game";
-        private TicTacToeGame _game;
 
-        [HttpGet("")]
-        public IActionResult Game()
+        [HttpPost("")]    
+        public IActionResult New(int boardLength=3)
+        {
+            var game = CreateNewGame(boardLength);
+            var gamestate = new GameModel(game);
+
+            return new JsonResult(gamestate);
+        }
+
+        [HttpPut("forfeit")]
+        public IActionResult Forfeit()
         {
             var game = GetCurrentGame();
+            game.ForfeitGame();
+            
             var gamestate = new GameModel(game);
 
             return new JsonResult(gamestate);
         }
 
-        [HttpGet("newgame")]
-        public IActionResult NewGame()
-        {
-            var game = CreateNewGame();
-            var gamestate = new GameModel(game);
-
-            return new JsonResult(gamestate);
-        }
-
-        [HttpGet("taketurn/{x}/{y}")]
+        [HttpPut("taketurn/{x}/{y}")]
         public IActionResult TakeTurn(int x, int y)
         {
             var game = GetCurrentGame();
@@ -41,25 +42,22 @@ namespace TicTacToeWebApp.Controllers
             return new JsonResult(new TurnStatusModel(game, turnStatus));
         }
 
-        private TicTacToeGame CreateNewGame()
+        private TicTacToeGame CreateNewGame(int boardLength)
         {
-            var game = new TicTacToeGame(3, new Player("Player 1", 'X'), new Player("Player 2", 'O'));
+            var game = new TicTacToeGame(boardLength);
             SaveGameInSession(game);
-            
+
             return game;
         }
-        
+
         private TicTacToeGame GetCurrentGame()
         {
-            return _game
-                   ?? TicTacToeSerializer.DeserializeJson(HttpContext.Session.GetString(SessionKeyGame))
-                   ?? (_game = CreateNewGame());
+            return TicTacToeSerializer.DeserializeJson(HttpContext.Session.GetString(SessionKeyGame));
         }
-        
+
         private void SaveGameInSession(TicTacToeGame game)
         {
             HttpContext.Session.SetString(SessionKeyGame, TicTacToeSerializer.SerializeToJson(game));
         }
-
     }
 }
