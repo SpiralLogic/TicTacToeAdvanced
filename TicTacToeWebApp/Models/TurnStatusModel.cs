@@ -3,7 +3,7 @@ using TicTacToe.TurnStatus;
 
 namespace TicTacToeWebApp.Models
 {
-    public class TurnStatusModel : GameStateModel
+    public class TurnStatusModel : GameModel
     {
         public string TurnStatus { get; }
         

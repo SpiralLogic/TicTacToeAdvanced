@@ -12,48 +12,54 @@ namespace TicTacToeWebApp.Controllers
         private const string SessionKeyGame = "_Game";
         private TicTacToeGame _game;
 
-        private TicTacToeGame Game
+        [HttpGet("")]
+        public IActionResult Game()
         {
-            get
-            {
-                if (_game == null)
-                {
-                    _game = TicTacToeSerializer.DeserializeJson(HttpContext.Session.GetString(SessionKeyGame));
-                }
+            var game = GetCurrentGame();
+            var gamestate = new GameModel(game);
 
-                if (_game == null)
-                {
-                    CreateNewGame();
-                }
-
-                return _game;
-            }
+            return new JsonResult(gamestate);
         }
 
         [HttpGet("newgame")]
         public IActionResult NewGame()
         {
-            CreateNewGame();
+            var game = CreateNewGame();
+            var gamestate = new GameModel(game);
 
-            var gamestate = new GameStateModel(Game);
-
-            return new ObjectResult(gamestate);
+            return new JsonResult(gamestate);
         }
 
         [HttpGet("taketurn/{x}/{y}")]
         public IActionResult TakeTurn(int x, int y)
         {
-            var turnStatus = Game.TakeTurn(new Coordinate(x, y));
+            var game = GetCurrentGame();
+            var turnStatus = game.TakeTurn(new Coordinate(x, y));
 
-            HttpContext.Session.SetString(SessionKeyGame, TicTacToeSerializer.SerializeToJson(Game));
+            SaveGameInSession(game);
 
-            return new ObjectResult(new TurnStatusModel(Game, turnStatus));
+            return new JsonResult(new TurnStatusModel(game, turnStatus));
         }
 
-        private void CreateNewGame()
+        private TicTacToeGame CreateNewGame()
         {
-            _game = new TicTacToeGame(3, new Player("Player 1", 'X'), new Player("Player 2", 'O'));
-            HttpContext.Session.SetString(SessionKeyGame, TicTacToeSerializer.SerializeToJson(_game));
+            var game = new TicTacToeGame(3, new Player("Player 1", 'X'), new Player("Player 2", 'O'));
+            SaveGameInSession(game);
+            
+            return game;
         }
+        
+        private TicTacToeGame GetCurrentGame()
+        {
+            return _game
+                   ?? TicTacToeSerializer.DeserializeJson(HttpContext.Session.GetString(SessionKeyGame))
+                   ?? (_game = CreateNewGame());
+        }
+        
+        private void SaveGameInSession(TicTacToeGame game)
+        {
+            HttpContext.Session.SetString(SessionKeyGame, TicTacToeSerializer.SerializeToJson(game));
+        }
+
     }
 }

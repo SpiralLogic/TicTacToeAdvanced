@@ -1,9 +1,12 @@
 class Row extends React.Component {
     render() {
+        const x = this.props.x;
+        const coords = this.props.coords;
+        const updateFunction = this.props.updateFunction;
         return (
             <div className="row">
-                {[...Array(this.props.size)].map((value, index) =>
-                    <Coordinate key={index} x={this.props.x + 1} y={index + 1}/>
+                {coords.map((entity, index) =>
+                    <Coordinate key={index} x={x} y={index + 1} entity={entity} updateFunction={updateFunction}/>
                 )}
             </div>
         )
