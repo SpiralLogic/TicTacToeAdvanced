@@ -1,6 +1,8 @@
 class Board extends React.Component {
-    componentDidUpdate() {
-        this.updateDimensions();
+    constructor(props) {
+        super(props);
+        this.state = {fontSize: `1px`};
+        this.updateDimensions = this.updateDimensions.bind(this);
     }
 
     componentDidMount() {
@@ -11,12 +13,18 @@ class Board extends React.Component {
         window.removeEventListener("resize", this.updateDimensions);
     }
 
+    componentDidUpdate() {
+        this.updateDimensions();
+    }
+
     updateDimensions() {
-        const coords = document.querySelectorAll(".coordinate");
-        if (coords.length > 0) {
-            const resizeTo = Math.min(coords[0].offsetHeight, coords[0].offsetWidth);
-            coords.forEach((e) => e.style.fontSize = `${resizeTo}px`);
-            console.log(resizeTo);
+        const coord = document.querySelector(".coordinate");
+        if (coord !== null) {
+            const resizeTo = `${Math.min(coord.offsetHeight, coord.offsetWidth)}px`;
+            if (resizeTo !== this.state.fontSize) {
+                console.log(resizeTo);
+                this.setState({fontSize: resizeTo});
+            }
         }
     }
 
@@ -25,7 +33,7 @@ class Board extends React.Component {
         const board = game.board;
         const updateFunction = this.props.updateFunction;
         return (
-            <div className="board">
+            <div style={{fontSize: this.state.fontSize}} className="board">
                 {board && board.map((row, index) =>
                     <Row key={index} x={index + 1} rowEntities={row} updateFunction={updateFunction} game={game}/>
                 )}

@@ -42,7 +42,6 @@ div#content {
     flex-direction: column;
     flex-grow: 1;
     flex-basis: 0;
-    font-size: 2em;
 }
 
 .clicked {
