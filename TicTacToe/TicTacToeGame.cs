@@ -64,7 +64,7 @@ namespace TicTacToe
 
         public void ForfeitGame()
         {
-            if ((GameState is GameInProgress))
+            if (GameState is GameInProgress)
             {
                 GameState = new GameForfeit(CurrentPlayer);
             }

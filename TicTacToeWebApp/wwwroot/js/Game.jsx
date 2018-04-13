@@ -9,38 +9,35 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        this.start();
-    }
-
-    start() {
-        this.makeRequest('/api/game/3', 'post');
-    }
-
-    forfeit() {
-        this.makeRequest('/api/game/forfeit', 'put');
+        this.start(3);
     }
 
     takeTurn(x, y) {
-        this.makeRequest(`/api/game/taketurn/${x}/${y}`, 'put');
+        this.makeRequest(`/api/game/taketurn/${x}/${y}`, (gameJson) => this.setState(gameJson), 'put');
     }
 
-    makeRequest(url, method = 'get') {
+    start(boardLength) {
+        this.makeRequest(`/api/game/${boardLength}`, (gameJson) => this.setState({board: gameJson.board}), 'post');
+    }
+
+    forfeit() {
+        this.makeRequest('/api/game/forfeit', (gameJson) => this.setState(gameJson), 'put');
+    }
+
+    makeRequest(url, responseCallback, method = 'get') {
         fetch(url, {method: method, credentials: "include"})
             .then(response => response.json())
-            .then(data => this.setState(data))
+            .then(json => responseCallback(json))
             .catch(err => console.log(err));
     }
 
     render() {
-        const gameState = this.state.gameState;
-        const turnStatus = this.state.turnStatus;
-        const game = this.state;
+        const {board, player1, player2, gameState, turnStatus} = this.state;
         return (
             <div className="game"><p>{gameState}</p>
-                <Board game={game} updateFunction={this.takeTurn}/>
+                <Board board={board} player1={player1} player2={player2} turnTakenHandler={this.takeTurn}/>
                 <p>{turnStatus}</p>
-                <button onClick={this.start}>New Game</button>
-                <button onClick={this.forfeit}>Forfeit Game</button>
+                <GameControls startHandler={this.start} forfeitHandler={this.forfeit}/>
             </div>
         );
     }

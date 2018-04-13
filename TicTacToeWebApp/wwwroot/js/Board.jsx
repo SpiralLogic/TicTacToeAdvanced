@@ -22,20 +22,18 @@ class Board extends React.Component {
         if (coord !== null) {
             const resizeTo = `${Math.min(coord.offsetHeight, coord.offsetWidth)}px`;
             if (resizeTo !== this.state.fontSize) {
-                console.log(resizeTo);
                 this.setState({fontSize: resizeTo});
             }
         }
     }
 
     render() {
-        const game = this.props.game;
-        const board = game.board;
-        const updateFunction = this.props.updateFunction;
+        const {board, player1, player2, turnTakenHandler} = this.props;
         return (
             <div style={{fontSize: this.state.fontSize}} className="board">
-                {board && board.map((row, index) =>
-                    <Row key={index} x={index + 1} rowEntities={row} updateFunction={updateFunction} game={game}/>
+                {board && board.map((rowSymbols, index) =>
+                    <Row key={index} x={index + 1} rowSymbols={rowSymbols} player1={player1} player2={player2}
+                         turnTakenHandler={turnTakenHandler}/>
                 )}
             </div>
         );

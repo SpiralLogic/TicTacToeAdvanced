@@ -1,13 +1,11 @@
 class Row extends React.Component {
     render() {
-        const x = this.props.x;
-        const rowEntities = this.props.rowEntities;
-        const game = this.props.game;
-        const updateFunction = this.props.updateFunction;
+        const {x, rowSymbols, player1, player2, turnTakenHandler} = this.props;
         return (
             <div className="row">
-                {rowEntities.map((entity, index) =>
-                    <Coordinate key={index} x={x} y={index + 1} entity={entity} updateFunction={updateFunction} game={game}/>
+                {rowSymbols.map((symbol, index) =>
+                    <Coordinate key={index} x={x} y={index + 1} symbol={symbol} turnTakenHandler={turnTakenHandler}
+                                player1={player1} player2={player2}/>
                 )}
             </div>
         )

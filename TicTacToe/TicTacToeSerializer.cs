@@ -17,8 +17,8 @@ namespace TicTacToe
                 KnownTypes = new List<Type>
                 {
                     typeof(GameInProgress),
-                    typeof(GameDraw),
                     typeof(GameForfeit),
+                    typeof(GameDraw),
                     typeof(GameWon),
                 },
                 SerializeReadOnlyTypes = true

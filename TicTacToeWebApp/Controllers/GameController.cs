@@ -26,9 +26,9 @@ namespace TicTacToeWebApp.Controllers
             var game = GetCurrentGame();
             game.ForfeitGame();
             
-            var gamestate = new GameModel(game);
-
-            return new JsonResult(gamestate);
+            SaveGameInSession(game);
+            
+            return new JsonResult(new GameModel(game));
         }
 
         [HttpPut("taketurn/{x}/{y}")]
