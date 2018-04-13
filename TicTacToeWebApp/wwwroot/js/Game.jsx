@@ -5,7 +5,7 @@ class Game extends React.Component {
         this.forfeit = this.forfeit.bind(this);
         this.takeTurn = this.takeTurn.bind(this);
         this.makeRequest = this.makeRequest.bind(this);
-        this.state = {board: [], gameState: '', player1: '', player2: '', turnStatus: "Go!"};
+        this.state = {gameState: '', player1: '', player2: '', turnStatus: "Go!", board: []};
     }
 
     componentDidMount() {
@@ -17,7 +17,7 @@ class Game extends React.Component {
     }
 
     start(boardLength) {
-        this.makeRequest(`/api/game/${boardLength}`, (gameJson) => this.setState({board: gameJson.board}), 'post');
+        this.makeRequest(`/api/game/${boardLength}`, (gameJson) => this.setState(gameJson), 'post');
     }
 
     forfeit() {
@@ -25,10 +25,20 @@ class Game extends React.Component {
     }
 
     makeRequest(url, responseCallback, method = 'get') {
-        fetch(url, {method: method, credentials: "include"})
+        fetch(url, {
+            method: method, credentials: "include",
+            body: JSON.stringify(this.currentBoardState()),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
             .then(response => response.json())
             .then(json => responseCallback(json))
             .catch(err => console.log(err));
+    }
+
+    currentBoardState() {
+        return {board: this.state.board, player1: this.state.player1, player2: this.state.player2};
     }
 
     render() {

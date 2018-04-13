@@ -7,7 +7,7 @@ namespace TicTacToeWebApp.Models
     {
         public string TurnStatus { get; }
         
-        public TurnStatusModel(TicTacToeGame game, ITurnStatus turnStatus) : base(game)
+        public TurnStatusModel(Game game, ITurnStatus turnStatus) : base(game)
         {
             TurnStatus = turnStatus.Describe;
         }

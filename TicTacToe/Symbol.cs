@@ -1,11 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿
 
 namespace TicTacToe
 {
-    [DataContract]
+    
     public class Symbol
     {
-        [DataMember]
+        
         private readonly char _symbol;
 
         internal Symbol(char symbol)

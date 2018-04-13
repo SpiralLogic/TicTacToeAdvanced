@@ -1,8 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿
 
 namespace TicTacToe.GameState
 {
-    [DataContract]  
+      
     public class GameInProgress : AbstractGameStateWithPlayer
     {
         public GameInProgress(Player player) : base(player)

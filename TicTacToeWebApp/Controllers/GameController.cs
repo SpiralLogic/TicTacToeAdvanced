@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicTacToe;
+using TicTacToe.GameState;
 using TicTacToeWebApp.Models;
 using Coordinate = System.Drawing.Point;
 
@@ -11,53 +14,41 @@ namespace TicTacToeWebApp.Controllers
     {
         private const string SessionKeyGame = "_Game";
 
-        [HttpPost("{boardLength}")]    
-        public IActionResult New(int boardLength=3)
+        [HttpPost("{boardLength}")]
+        [Produces("application/json")]
+        public IActionResult New(int boardLength = 3)
         {
             var game = CreateNewGame(boardLength);
-            var gamestate = new GameModel(game);
 
-            return new JsonResult(gamestate);
+            return StatusCode((int) HttpStatusCode.Created, new JsonResult(new GameModel(game)));
         }
 
-        [HttpPut("forfeit")]
-        public IActionResult Forfeit()
+        [HttpPut, Route("forfeit")]
+        public IActionResult Forfeit([FromBody] GameModel gameModel)
         {
-            var game = GetCurrentGame();
+            var game = CreateGameFromGameModel(gameModel);
             game.ForfeitGame();
-            
-            SaveGameInSession(game);
-            
-            return new JsonResult(new GameModel(game));
+
+            return StatusCode((int) HttpStatusCode.Accepted, new JsonResult(new GameModel(game)));
         }
 
         [HttpPut("taketurn/{x}/{y}")]
-        public IActionResult TakeTurn(int x, int y)
+        public IActionResult TakeTurn(int x, int y, [FromBody] GameModel gameModel)
         {
-            var game = GetCurrentGame();
+            var game = CreateGameFromGameModel(gameModel);
             var turnStatus = game.TakeTurn(new Coordinate(x, y));
 
-            SaveGameInSession(game);
-
-            return new JsonResult(new TurnStatusModel(game, turnStatus));
+            return StatusCode((int) HttpStatusCode.Accepted, new JsonResult(new TurnStatusModel(game, turnStatus)));
         }
 
-        private TicTacToeGame CreateNewGame(int boardLength)
+        private Game CreateNewGame(int boardLength)
         {
-            var game = new TicTacToeGame(boardLength);
-            SaveGameInSession(game);
-
-            return game;
+            return new Game(boardLength);
         }
 
-        private TicTacToeGame GetCurrentGame()
+        private static Game CreateGameFromGameModel(GameModel gameModel)
         {
-            return TicTacToeSerializer.DeserializeJson(HttpContext.Session.GetString(SessionKeyGame));
-        }
-
-        private void SaveGameInSession(TicTacToeGame game)
-        {
-            HttpContext.Session.SetString(SessionKeyGame, TicTacToeSerializer.SerializeToJson(game));
+            return new GameFactory().FromSavedGame(new SavedGame(gameModel.Board, gameModel.Player1.FirstOrDefault(), gameModel.Player2.FirstOrDefault()));
         }
     }
 }

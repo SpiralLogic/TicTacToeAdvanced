@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Serialization;
 using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
-    [DataContract]
     public class Board
     {
-        [DataMember] private readonly Symbol _emptySymbol;
-        [DataMember] private readonly Symbol[][] _board;
+        private readonly Symbol _emptySymbol;
+        private readonly Symbol[][] _board;
 
         public int BoardLength => _board.GetLength(0);
 
@@ -53,6 +51,11 @@ namespace TicTacToe
         public Symbol GetSymbolAt(Coordinate coordinate)
         {
             return _board[coordinate.X - 1][coordinate.Y - 1];
+        }
+
+        internal int Count(Symbol symbol)
+        {
+            return _board.SelectMany(r => r).Count(s => s == symbol);
         }
 
         public override string ToString()

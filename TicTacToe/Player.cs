@@ -1,14 +1,14 @@
-﻿using System.Runtime.Serialization;
+﻿
 
 namespace TicTacToe
 {
-    [DataContract]
+    
     public class Player
     {
-        [DataMember]
+        
         public string Name { get; private set; }
 
-        [DataMember] public readonly Symbol Symbol;
+         public readonly Symbol Symbol;
 
         public Player(string name, Symbol symbol)
         {

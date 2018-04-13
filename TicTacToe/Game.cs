@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using TicTacToe.WinConditions;
@@ -8,26 +7,21 @@ using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
-    [DataContract]
-    public class TicTacToeGame
+    public class Game
     {
-        [DataMember] private readonly Board _board;
+        private readonly Board _board;
 
-        [DataMember]
-        public Player Player1 { get; private set; }
+        public Player Player1 { get; }
 
-        [DataMember]
-        public Player Player2 { get; private set; }
+        public Player Player2 { get; }
 
-        [DataMember]
         public Player CurrentPlayer { get; private set; }
 
-        [DataMember]
         public IGameState GameState { get; private set; }
 
-        private IEnumerable<IWinCondition> _winConditions;
+        private readonly IEnumerable<IWinCondition> _winConditions;
 
-        public TicTacToeGame(int boardLength, Player player1 = null, Player player2 = null)
+        public Game(int boardLength, Player player1 = null, Player player2 = null)
         {
             _winConditions = CreateWinConditions();
 
@@ -36,6 +30,13 @@ namespace TicTacToe
             Player2 = player2 ?? new Player("Player 2", new Symbol('O'));
             CurrentPlayer = Player1;
             GameState = new GameInProgress(CurrentPlayer);
+        }
+
+        internal Game(Board board, Player player1, Player player2) : this(board.BoardLength, player1, player2)
+        {
+            _board = board;
+            CurrentPlayer = _board.Count(Player1.Symbol) <= _board.Count(Player2.Symbol) ? Player2 : Player1;
+            UpdateGameState();
         }
 
         public ITurnStatus TakeTurn(Coordinate coordinate)
@@ -115,12 +116,6 @@ namespace TicTacToe
                 new VerticalWinCondition(),
                 new DiagonalWinCondition()
             };
-        }
-
-        [OnDeserializing]
-        private void OnDeserialize(StreamingContext ctx)
-        {
-            _winConditions = CreateWinConditions();
         }
     }
 }
