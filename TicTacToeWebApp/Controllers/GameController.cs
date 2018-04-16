@@ -1,9 +1,6 @@
 ﻿using System.Linq;
-using System.Net;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicTacToe;
-using TicTacToe.GameState;
 using TicTacToeWebApp.Models;
 using Coordinate = System.Drawing.Point;
 
@@ -12,38 +9,47 @@ namespace TicTacToeWebApp.Controllers
     [Route("api/[controller]")]
     public class GameController : Controller
     {
-        private const string SessionKeyGame = "_Game";
-
         [HttpPost("{boardLength}")]
         [Produces("application/json")]
         public IActionResult New(int boardLength = 3)
         {
             var game = CreateNewGame(boardLength);
 
-            return StatusCode((int) HttpStatusCode.Created, new JsonResult(new GameModel(game)));
+            return new JsonResult(new GameModel(game));
+        }
+        
+        [HttpPost("{boardLength}/{player1}/{player2}")]
+        [Produces("application/json")]
+        public IActionResult New(int boardLength, char player1, char player2)
+        {
+            var game = CreateNewGame(boardLength, player1, player2);
+
+            return new JsonResult(new GameModel(game));
         }
 
         [HttpPut, Route("forfeit")]
+        [Produces("application/json")]
         public IActionResult Forfeit([FromBody] GameModel gameModel)
         {
             var game = CreateGameFromGameModel(gameModel);
             game.ForfeitGame();
 
-            return StatusCode((int) HttpStatusCode.Accepted, new JsonResult(new GameModel(game)));
+            return new JsonResult(new GameModel(game));
         }
 
         [HttpPut("taketurn/{x}/{y}")]
+        [Produces("application/json")]
         public IActionResult TakeTurn(int x, int y, [FromBody] GameModel gameModel)
         {
             var game = CreateGameFromGameModel(gameModel);
             var turnStatus = game.TakeTurn(new Coordinate(x, y));
 
-            return StatusCode((int) HttpStatusCode.Accepted, new JsonResult(new TurnStatusModel(game, turnStatus)));
+            return new JsonResult(new TurnStatusModel(game, turnStatus));
         }
 
-        private Game CreateNewGame(int boardLength)
+        private Game CreateNewGame(int boardLength, char player1 = 'X', char player2 = 'O')
         {
-            return new Game(boardLength);
+            return new Game(boardLength, new Player("Player 1", player1), new Player("Player 2", player2));
         }
 
         private static Game CreateGameFromGameModel(GameModel gameModel)

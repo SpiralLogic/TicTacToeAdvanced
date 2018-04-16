@@ -36,6 +36,7 @@ namespace TicTacToe
         {
             _board = board;
             CurrentPlayer = _board.Count(Player1.Symbol) <= _board.Count(Player2.Symbol) ? Player2 : Player1;
+            
             UpdateGameState();
         }
 

@@ -16,8 +16,13 @@ class Game extends React.Component {
         this.makeRequest(`/api/game/taketurn/${x}/${y}`, (gameJson) => this.setState(gameJson), 'put');
     }
 
-    start(boardLength) {
-        this.makeRequest(`/api/game/${boardLength}`, (gameJson) => this.setState(gameJson), 'post');
+    start(boardLength, player1, player2) {
+        let requestUri = `/api/game/${boardLength}`;
+        if (player1 !== undefined && player1.length === 1 && player2 !== undefined && player2.length === 1) {
+            requestUri = `${requestUri}/${player1}/${player2}`;
+        }
+        this.makeRequest(requestUri, (gameJson) => this.setState(gameJson), 'post');
+        this.setState({turnStatus: "New game, Go!"});
     }
 
     forfeit() {
@@ -44,9 +49,11 @@ class Game extends React.Component {
     render() {
         const {board, player1, player2, gameState, turnStatus} = this.state;
         return (
-            <div className="game"><p>{gameState}</p>
-                <Board board={board} player1={player1} player2={player2} turnTakenHandler={this.takeTurn}/>
-                <p>{turnStatus}</p>
+            <div className="game-content">
+                <div className="game"><p>{gameState}</p>
+                    <Board board={board} player1={player1} player2={player2} turnTakenHandler={this.takeTurn}/>
+                    <p>{turnStatus}</p>
+                </div>
                 <GameControls startHandler={this.start} forfeitHandler={this.forfeit}/>
             </div>
         );

@@ -74,6 +74,7 @@ namespace TicTacToe
         {
             var player1Turns = allsymbols.Count(c => c == savedGame.Player1Symbol);
             var player2Turns = allsymbols.Count(c => c == savedGame.Player2Symbol);
+            
             return Math.Abs(player1Turns - player2Turns) <= 1;
         }
 
